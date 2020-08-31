@@ -1,12 +1,15 @@
 package com.zebra.rfid.demo.sdksample.network;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.zebra.rfid.demo.sdksample.utils.PrefConstant;
+import com.zebra.rfid.demo.sdksample.utils.PrefRepository;
 import com.zebra.rfid.demo.sdksample.utils.Utils;
 
 public class Network {
@@ -37,7 +40,16 @@ public class Network {
     public static Network with(Context context, String api) {
         Network network = new Network();
         network.context = context;
-        network.url = Utils.getUrl(api);
+        //network.url = Utils.getUrl(api);
+
+        String URL = "";
+        // Get server IP from shared preference
+        PrefRepository PrefObj = PrefRepository.Companion.getSingleInstance();
+        String server_ip = (new PrefConstant().SERVER_IP);
+        URL = PrefObj.getValueOrDefault(server_ip, "192.168.0.1");
+        network.url = URL + api;
+        Log.d("Accessing URL -->", URL);
+
         return network;
     }
 

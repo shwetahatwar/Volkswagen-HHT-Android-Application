@@ -1,20 +1,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#0d47a1</item>
+        <item name="colorPrimaryDark">#0d47a1</item>
+        <item name="colorAccent">#0d47a1</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.DarkActionBar">
+        <item name="android:textSize">5sp</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textSize">10sp</item>
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
@@ -37,7 +40,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:drawablePadding">10dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">5sp</item>
     </style>
 
     <!--Style for the font to indicate success(green font) -->
@@ -162,14 +165,14 @@
 
     <!-- CustomNotificationBar title text -->
     <style name="CustomNotificationBarTitleText">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">5sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
 
     <style name="CustomNotificationBarText">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">5sp</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
 
@@ -214,5 +217,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="colorPrimary">#0d47a1</item>
+    </style>
+
+
 
 </resources>

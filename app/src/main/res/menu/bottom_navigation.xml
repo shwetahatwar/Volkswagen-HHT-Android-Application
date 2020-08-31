@@ -3,17 +3,16 @@
 
     <item
         android:icon="@drawable/ic_keyboard"
-        android:id="@+id/keyboard"
-        android:title="Back"/>
+        android:id="@+id/back"
+        android:title="@string/title_back"/>
 
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title="@string/title_home"/>
 
     <item
         android:id="@+id/search"
-        android:icon="@drawable/ic_trending"
-        android:title="Next"/>
+        android:title=""/>
 
 </menu>

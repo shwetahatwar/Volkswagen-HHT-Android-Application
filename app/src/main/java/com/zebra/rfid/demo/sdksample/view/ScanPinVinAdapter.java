@@ -26,8 +26,8 @@ public class ScanPinVinAdapter extends RecyclerView.Adapter<ScanPinVinAdapter.My
         public MyViewHolder(View view) {
             super(view);
             pin = view.findViewById(R.id.pin);
-            vin = view.findViewById(R.id.vin);
-            tag = view.findViewById(R.id.tag);
+            vin = view.findViewById(R.id.vinValue);
+            tag = view.findViewById(R.id.tagPinNumber);
         }
     }
 
@@ -60,7 +60,5 @@ public class ScanPinVinAdapter extends RecyclerView.Adapter<ScanPinVinAdapter.My
     public int getItemCount() {
         return scanpinvinList.size();
     }
-
-
 
 }

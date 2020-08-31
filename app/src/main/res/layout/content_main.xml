@@ -5,181 +5,161 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scanned PIN Number"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textStatus" />
 
-<!--          <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="SCAN PIN NO."/>-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/pin"-->
-<!--            android:hint="SCAN PIN NO."-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@android:drawable/editbox_background"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="SCAN VIN NO."/>-->
-
-<!--        <EditText-->
-<!--            android:id="@+id/vin"-->
-<!--            android:hint="SCAN VIN NO."-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@android:drawable/editbox_background"/>-->
     <TextView
         android:id="@+id/mainpin"
-        android:hint="pin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="PIN" />
+
+    <TextView
+        android:id="@+id/textView9"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@android:drawable/editbox_background"/>
+        android:text="Scanned VIN Number"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textStatus" />
+
 
     <TextView
         android:id="@+id/mainvin"
-        android:hint="vin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:drawable/editbox_background"/>
+        android:hint="VIN" />
 
-
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:text="RFID Status:"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:text="Connected"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
-
-    <TextView
-        android:id="@+id/readData"
-        android:hint="Hash Seprator."
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:drawable/editbox_background"/>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="Tag Data:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textStatus" />
-
-    <EditText
-        android:id="@+id/textview5"
-        android:hint="Read Data"
-        android:maxLength="24"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"/>
-
-    <TextView
-        android:id="@+id/testStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp">
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="100dp"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:text="READ" />
+            android:paddingRight="10dp"
+            android:text="RFID Reader status:"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NA"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <!--        <Button-->
+        <!--            android:id="@+id/readButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:background="@android:color/holo_blue_dark"-->
+        <!--            android:text="Read Tag Id"-->
+        <!--            android:imeOptions="actionNext"-->
+        <!--            android:textAllCaps="false"-->
+        <!--            android:textColor="@android:color/white" />-->
 
-<!--        <Button-->
-<!--            android:id="@+id/button2"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="50dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:text="WRITE" />-->
-
+        <EditText
+            android:id="@+id/epcTagID"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:imeOptions="actionNext"
+            android:background="@android:drawable/editbox_background"
+            android:hint="Tag Id"
+            android:minHeight="50dp"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/readButton"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/holo_blue_dark"
+            android:text="Read Tag Id"
+            android:imeOptions="actionNext"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/writeRFIDTagButton"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:imeOptions="actionNext"
+        android:background="@android:color/holo_purple"
+        android:text="Write to Tag"
+        android:textColor="@android:color/white" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textViewBtnData"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="5dp"-->
+    <!--        android:text="Tag Read Data"-->
+    <!--        android:imeOptions="actionNext"-->
+    <!--        android:textAlignment="viewStart"-->
+    <!--        android:textColor="@android:color/holo_blue_dark"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textStatus" />-->
+
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/accessRWData"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:inputType="textCapCharacters|textNoSuggestions|textMultiLine"-->
+    <!--        android:paddingLeft="10dp" />-->
+
     <TextView
-        android:id="@+id/textViewBtnData"
+        android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="Tag Read Data:"
+        android:paddingTop="45dp"
+        android:paddingBottom="2dp"
+        android:text="Powered By"
         android:textAlignment="center"
-        android:textColor="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textStatus" />
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
-
-    <EditText
-        android:id="@+id/accessRWData"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapCharacters|textNoSuggestions|textMultiLine"
-        android:paddingLeft="10dp"/>
-
-
-
-    <!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal">-->
-
-
-<!--        <Button-->
-<!--            android:id="@+id/btn1"-->
-<!--            android:layout_width="105dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:text="Back" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn2"-->
-<!--            android:layout_width="105dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="100dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:text="Next" />-->
-
-
-<!--    </LinearLayout>-->
-
+        android:layout_height="30dp"
+        android:layout_marginTop="2dp"
+        app:srcCompat="@drawable/logo" />
 </LinearLayout>

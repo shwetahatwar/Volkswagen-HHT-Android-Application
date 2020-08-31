@@ -1,14 +1,24 @@
 package com.zebra.rfid.demo.sdksample;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Looper;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.zebra.ASCII_SDK.CONFIG_TYPE;
+import com.zebra.ASCII_SDK.IMsg;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
 import com.zebra.rfid.api3.Antennas;
 import com.zebra.rfid.api3.ENUM_TRANSPORT;
-import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
 import com.zebra.rfid.api3.HANDHELD_TRIGGER_EVENT_TYPE;
 import com.zebra.rfid.api3.INVENTORY_STATE;
 import com.zebra.rfid.api3.InvalidUsageException;
@@ -27,39 +37,79 @@ import com.zebra.rfid.api3.STATUS_EVENT_TYPE;
 import com.zebra.rfid.api3.STOP_TRIGGER_TYPE;
 import com.zebra.rfid.api3.TagAccess;
 import com.zebra.rfid.api3.TagData;
+import com.zebra.rfid.api3.TagDataArray;
 import com.zebra.rfid.api3.TriggerInfo;
-
 import java.util.ArrayList;
+
+import static java.security.AccessController.getContext;
 
 class RFIDHandler implements Readers.RFIDReaderEventHandler {
 
     final static String TAG = "RFID_SAMPLE";
-    // RFID Reader
+    public static Object EventHandler;
     private static Readers readers;
     private static ArrayList<ReaderDevice> availableRFIDReaderList;
     private static ReaderDevice readerDevice;
     public static RFIDReader reader;
-    private EventHandler eventHandler;
-    // UI and context
-    TextView textView;
-    private MainActivity context;
-    // general
-    private int MAX_POWER = 270;
+    private static EventHandler eventHandler;
+    private static ResponseHandlerInterface context;
+    private AppCompatActivity activityContext;
+
+    private Integer MAX_POWER_CONFIG = 270;
+
     // In case of RFD8500 change reader name with intended device below from list of paired RFD8500
     String readername = "RFD8500123";
+    Context ctx;
+    RFIDHandler(Context ctx){
+        this.ctx = ctx;
+        @SuppressLint("WrongConstant") SharedPreferences sh = this.ctx.getSharedPreferences("MySharedPref",
+                Context.MODE_APPEND);
+        MAX_POWER = sh.getString("max_antena", "");
+//        MAX_POWER =
+        Log.d("Max Power -->", MAX_POWER);
+    }
+
+    String MAX_POWER = HomeActivity.antena;
+
+//    public class MEMORY_BANK;
 
     void onCreate(MainActivity activity) {
-        // application context
         context = activity;
-        // Status UI
-        textView = activity.statusTextViewRFID;
-        // SDK
+        activityContext = activity;
         InitSDK();
     }
 
-    // TEST BUTTON functionality
-    // following two tests are to try out different configurations features
+    void onRFIDReadCreate(MainActivity mainActivity) {
+        context = mainActivity;
+        activityContext = mainActivity;
+        InitSDK();
+    }
 
+    void onRFIDReadCreate(PinVinnActivity pinVinnActivity) {
+        context = pinVinnActivity;
+        activityContext = pinVinnActivity;
+        InitSDK();
+    }
+
+    void onRFIDReadCreate(ReadTagActivity activity) {
+        context = activity;
+        activityContext = activity;
+        InitSDK();
+    }
+
+    void onPINReadCreate(PinVinnActivity activity) {
+        context = activity;
+        activityContext = activity;
+        InitSDK();
+    }
+
+    public synchronized void initialize() {
+        if (readers == null || reader == null) {
+            InitSDK();
+        }
+    }
+
+    // following two tests are to try out different configurations features
     public String Test1() {
         // check reader connection
         if (!isReaderConnected())
@@ -109,7 +159,8 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
             // Power to 270
             Antennas.AntennaRfConfig config = null;
             config = reader.Config.Antennas.getAntennaRfConfig(1);
-            config.setTransmitPowerIndex(MAX_POWER);
+            Log.d("MAX_POWER-->", MAX_POWER);
+            config.setTransmitPowerIndex(Integer.parseInt(MAX_POWER));
             config.setrfModeTableIndex(0);
             config.setTari(0);
             reader.Config.Antennas.setAntennaRfConfig(1, config);
@@ -128,42 +179,40 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         return "Default settings applied";
     }
 
-    private boolean isReaderConnected() {
+    public boolean isReaderConnected() {
         if (reader != null && reader.isConnected())
             return true;
         else {
-            Log.d(TAG, "reader is not connected");
+            Log.d(TAG, "Reader is not connected");
             return false;
         }
     }
 
-
-    //write code ------------------------------------------------------------------------
-
-    public void writeTag(String sourceEPC, MEMORY_BANK memory_bank, String targetData, int offset) {
-        Log.d(TAG, "WriteTag " + targetData);
+    public String writeTag(String sourceEPC, MEMORY_BANK memory_bank, String targetData, int offset) {
         try {
             TagData tagData = null;
             String tagId = sourceEPC;
             TagAccess tagAccess = new TagAccess();
             TagAccess.WriteAccessParams writeAccessParams = tagAccess.new WriteAccessParams();
             String writeData = targetData; //write data in string
-//            writeAccessParams.setAccessPassword(Long.parseLong(Password, 16));
             writeAccessParams.setMemoryBank(memory_bank);
             writeAccessParams.setOffset(offset); // start writing from word offset 0
             writeAccessParams.setWriteData(writeData);
-            // set retries in case of partial write happens
             writeAccessParams.setWriteRetries(3);
-            // data length in words
             writeAccessParams.setWriteDataLength(writeData.length() / 4);
-            // 5th parameter bPrefilter flag is true which means API will apply pre filter internally
-            // 6th parameter should be true in case of changing EPC ID it self i.e. source and target both is EPC
             boolean useTIDfilter = memory_bank == MEMORY_BANK.MEMORY_BANK_EPC;
+            Log.d("Params to write - ", String.valueOf(writeAccessParams));
+            Log.d("Params to tagData - ", String.valueOf(tagData));
             reader.Actions.TagAccess.writeWait(tagId, writeAccessParams, null, tagData, true, useTIDfilter);
+            Log.d(TAG, "inside writetag data");
+            return "Written Successfully";
         } catch (InvalidUsageException e) {
             e.printStackTrace();
+            return "Failed to write";
         } catch (OperationFailureException e) {
+            Log.d(TAG,e.toString());
             e.printStackTrace();
+            return "Failed to write";
         }
     }
 
@@ -179,17 +228,17 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         dispose();
     }
 
-    //
-    // RFID SDK
-    //
-
-    private void InitSDK() {
-        Log.d(TAG, "InitSDK");
+    public void InitSDK() {
+        Log.d(TAG, "InitSDK ");
+        Log.d("readers", String.valueOf(readers));
         if (readers == null) {
             new CreateInstanceTask().execute();
         } else
             new ConnectionTask().execute();
     }
+
+
+
 
     // Enumerates SDK based on host device
     private class CreateInstanceTask extends AsyncTask<Void, Void, Void> {
@@ -199,7 +248,7 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
             // Based on support available on host device choose the reader type
             InvalidUsageException invalidUsageException = null;
             try {
-                readers = new Readers(context, ENUM_TRANSPORT.SERVICE_SERIAL);
+                readers = new Readers(activityContext, ENUM_TRANSPORT.SERVICE_SERIAL);
                 availableRFIDReaderList = readers.GetAvailableRFIDReaderList();
             } catch (InvalidUsageException e) {
                 e.printStackTrace();
@@ -209,7 +258,7 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 readers.Dispose();
                 readers = null;
                 if (readers == null) {
-                    readers = new Readers(context, ENUM_TRANSPORT.BLUETOOTH);
+                    readers = new Readers(activityContext, ENUM_TRANSPORT.BLUETOOTH);
                 }
             }
             return null;
@@ -235,7 +284,7 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            textView.setText(result);
+            context.handleRFIDStatus(result);
         }
     }
 
@@ -268,7 +317,6 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         }
     }
 
-    // handler for receiving reader appearance events
     @Override
     public void RFIDReaderAppeared(ReaderDevice readerDevice) {
         Log.d(TAG, "RFIDReaderAppeared " + readerDevice.getName());
@@ -322,17 +370,25 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 reader.Events.setTagReadEvent(true);
                 reader.Events.setAttachTagDataWithReadEvent(false);
                 // set trigger mode as rfid so scanner beam will not come
-                reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, true);
+                // reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, false);
                 // set start and stop triggers
                 reader.Config.setStartTrigger(triggerInfo.StartTrigger);
                 reader.Config.setStopTrigger(triggerInfo.StopTrigger);
+
                 // power levels are index based so maximum power supported get the last one
-                MAX_POWER = reader.ReaderCapabilities.getTransmitPowerLevelValues().length - 1;
+                MAX_POWER_CONFIG = reader.ReaderCapabilities.getTransmitPowerLevelValues().length - 1;
+                if (MAX_POWER != null){
+                    MAX_POWER_CONFIG = Integer.parseInt(MAX_POWER);
+                }
+                Log.d("MAX_POWER_CONFIG 2->", String.valueOf(MAX_POWER_CONFIG));
+                Log.d("User Antena power 2", String.valueOf(MAX_POWER));
+
                 // set antenna configurations
                 Antennas.AntennaRfConfig config = reader.Config.Antennas.getAntennaRfConfig(1);
-                config.setTransmitPowerIndex(MAX_POWER);
+                config.setTransmitPowerIndex(MAX_POWER_CONFIG);
                 config.setrfModeTableIndex(0);
                 config.setTari(0);
+
                 reader.Config.Antennas.setAntennaRfConfig(1, config);
                 // Set the singulation control
                 Antennas.SingulationControl s1_singulationControl = reader.Config.Antennas.getSingulationControl(1);
@@ -340,6 +396,7 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 s1_singulationControl.Action.setInventoryState(INVENTORY_STATE.INVENTORY_STATE_A);
                 s1_singulationControl.Action.setSLFlag(SL_FLAG.SL_ALL);
                 reader.Config.Antennas.setSingulationControl(1, s1_singulationControl);
+
                 // delete any prefilters
                 reader.Actions.PreFilters.deleteAll();
                 //
@@ -352,13 +409,15 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
     private synchronized void disconnect() {
         Log.d(TAG, "disconnect " + reader);
         try {
+            Log.d(TAG,"inside rfid handler java");
             if (reader != null) {
                 reader.Events.removeEventsListener(eventHandler);
                 reader.disconnect();
-                context.runOnUiThread(new Runnable() {
+                activityContext.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        textView.setText("Disconnected");
+                        context.handleRFIDStatus("Disconnected");
+//                        textView.setText("Disconnected");
                     }
                 });
             }
@@ -409,47 +468,66 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         }
     }
 
+    public class ToastMessege{
+        public void makeToast(String msg) {
+//            Toast toast = Toast.makeText(activityContext, msg, Toast.LENGTH_LONG);
+//            toast.show();
+        }
+    }
+
     // Read/Status Notify handler
     // Implement the RfidEventsLister class to receive event notifications
     public class EventHandler implements RfidEventsListener {
         // Read Event Notification
+        int count = 0;
         public void eventReadNotify(RfidReadEvents e) {
             // Recommended to use new method getReadTagsEx for better performance in case of large tag population
-            TagData[] myTags = reader.Actions.getReadTags(1);
+            TagDataArray myTags = reader.Actions.getReadTagsEx(10);
+            context.updateCounter();
+//            if (count == 2){
+//                Log.d("inside if ->", String.valueOf(count));
+//                new ToastMessege().makeToast("Multiple tag read by reader");
+//                count = 0;
+//                return;
+//            }
             if (myTags != null) {
-                for (int index = 0; index < myTags.length; index++) {
-                    Log.d(TAG, "Tag ID " + myTags[index].getTagID());
-                    if (myTags[index].getOpCode() == ACCESS_OPERATION_CODE.ACCESS_OPERATION_READ &&
-                            myTags[index].getOpStatus() == ACCESS_OPERATION_STATUS.ACCESS_SUCCESS) {
-                        if (myTags[index].getMemoryBankData().length() > 0) {
-                            Log.d(TAG, " Mem Bank Data " + myTags[index].getMemoryBankData());
+                for (int index = 0; index < 1; index++) {
+                    Log.d(TAG, "Tag ID ---> " + myTags.getTags()[index].getTagID());
+                    count = count + 1;
+                    Log.d("counter 2", String.valueOf(count));
+                    if (myTags.getTags()[index].getOpCode() == ACCESS_OPERATION_CODE.ACCESS_OPERATION_READ &&
+                            myTags.getTags()[index].getOpStatus() == ACCESS_OPERATION_STATUS.ACCESS_SUCCESS) {
+                        if (myTags.getTags()[index].getMemoryBankData().length() > 0) {
+                            Log.d(TAG, " Mem Bank Data " + myTags.getTags()[index].getMemoryBankData());
+                            myTags.getTags()[index].getTagID();
                         }
                     }
-                    if (myTags[index].isContainsLocationInfo()) {
-                        short dist = myTags[index].LocationInfo.getRelativeDistance();
+                    if (myTags.getTags()[index].isContainsLocationInfo()) {
+                        short dist = myTags.getTags()[index].LocationInfo.getRelativeDistance();
                         Log.d(TAG, "Tag relative distance " + dist);
                     }
                 }
                 // possibly if operation was invoked from async task and still busy
                 // handle tag data responses on parallel thread thus THREAD_POOL_EXECUTOR
-                new AsyncDataUpdate().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, myTags);
+                new AsyncDataUpdate().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, myTags.getTags());
+//                context.handleTagdata(myTags);
             }
         }
 
         // Status Event Notification
         public void eventStatusNotify(RfidStatusEvents rfidStatusEvents) {
-            Log.d(TAG, "Status Notification: " + rfidStatusEvents.StatusEventData.getStatusEventType());
+            // Log.d(TAG, "Status Notification: " + rfidStatusEvents.StatusEventData.getStatusEventType());
             if (rfidStatusEvents.StatusEventData.getStatusEventType() == STATUS_EVENT_TYPE.HANDHELD_TRIGGER_EVENT) {
-                if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_PRESSED) {
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            context.handleTriggerPress(true);
-                            return null;
-                        }
-                    }.execute();
-                }
                 if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_RELEASED) {
+                    if (rfidStatusEvents.StatusEventData.HandheldTriggerEventData.getHandheldEvent() == HANDHELD_TRIGGER_EVENT_TYPE.HANDHELD_TRIGGER_PRESSED) {
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                context.handleTriggerPress(true);
+                                return null;
+                            }
+                        }.execute();
+                    }
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
@@ -462,9 +540,10 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         }
     }
 
-    private class AsyncDataUpdate extends AsyncTask<TagData[], Void, Void> {
+    static class AsyncDataUpdate extends AsyncTask<TagData[], Void, Void> {
         @Override
         protected Void doInBackground(TagData[]... params) {
+            Log.d("---TagData[]->", String.valueOf(params));
             context.handleTagdata(params[0]);
             return null;
         }
@@ -474,7 +553,11 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         void handleTagdata(TagData[] tagData);
 
         void handleTriggerPress(boolean pressed);
-        //void handleStatusEvents(Events.StatusEventData eventData);
+
+        void handleRFIDStatus(String status);
+
+        void updateCounter();
+
     }
 
 }

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4046ff</color>
+    <color name="blue">#0d47a1</color>
+
     <color name="colorPrimaryDark">#4b636e</color>
-    <color name="colorAccent">#ff7043</color>
+    <color name="colorAccent">#FF7043</color>
     <color name="msg_no_notes">#999</color>
     <color name="hint_enter_note">#89c3c3c3</color>
     <color name="timestamp">#858585</color>
     <color name="note_list_text">#232323</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="bnv_tab_item_foreground">#FFFFFF</color>
+
+    <color name="green">#07bc0c</color>
+
 </resources>

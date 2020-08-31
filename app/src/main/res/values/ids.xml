@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="buttonAdd" type="id" />
+    <item name="textPrice" type="id" />
+    <item name="textUnit" type="id" />
+    <item name="textTitle" type="id" />
+    <item name="textCompany" type="id" />
+</resources>
