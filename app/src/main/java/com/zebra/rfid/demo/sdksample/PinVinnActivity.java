@@ -304,7 +304,7 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                                     rfid_user_memory_value.setText(result);
                                 }
                                 else {
-                                    if(result.length() > 18){
+                                    if(result.length() > 17){
                                         result = result.substring(4, result.length());
                                     }
                                     rfid_user_memory_value.setText(result);

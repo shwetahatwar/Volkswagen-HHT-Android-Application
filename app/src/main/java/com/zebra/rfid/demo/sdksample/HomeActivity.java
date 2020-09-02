@@ -65,8 +65,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         setTitle("Volkswagen");
 
-//        URL = getIntent().getExtras().getString("url");
-
         ipaddressvalue = findViewById(R.id.ip_address_value_home);
         @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
                 Context.MODE_APPEND);
@@ -90,7 +88,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onResponse(JSONArray response) {
-//                        Log.e("Request GET response",response.toString());
                         ipaddressvalue.setTextColor(Color.parseColor("#07bc0c"));
                     }
                 },
@@ -142,7 +139,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         });
         for (int i = 0; i < btn.length; i++) {
             btn[i] = (Button) findViewById(btn_id[i]);
-            // btn[i].setBackgroundColor(Color.rgb(0, 0, 0));
             btn[i].setOnClickListener(this);
         }
     }
@@ -156,7 +152,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
                 case R.id.btn0:
-                    // setFocus(btn[0]);
                     break;
 
                 case R.id.cp6:

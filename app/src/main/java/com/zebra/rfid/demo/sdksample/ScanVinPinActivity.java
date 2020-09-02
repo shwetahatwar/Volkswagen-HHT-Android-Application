@@ -129,7 +129,7 @@ public class ScanVinPinActivity extends AppCompatActivity {
                     toast.show();
                     pinValue.clearFocus();
                     vinValue.requestFocus();
-                    if (vinValue.getText().toString().length() == 18) {
+                    if (vinValue.getText().toString().length() == 17) {
                         vin1 = vinValue.getText().toString();
                         pin1 = pinValue.getText().toString();
                         Intent i = new Intent(ScanVinPinActivity.this, MainActivity.class);
@@ -181,7 +181,7 @@ public class ScanVinPinActivity extends AppCompatActivity {
                     vinFlag = false;
                     return false;
                 }
-                else if ( vinValue.getText().toString().length() != 18 ){
+                else if ( vinValue.getText().toString().length() != 17 ){
                     CharSequence text = "Invalid VIN Number Scanned";
                     Toast toast = Toast.makeText(context, text, duration);
                     View v = toast.getView();

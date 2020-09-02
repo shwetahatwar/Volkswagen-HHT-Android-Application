@@ -19,13 +19,20 @@ public class RFIDPerformInevntoryClass extends AppCompatActivity implements RFID
     hexConverstion newHexConverstion = new hexConverstion();
     public void readRFIDTagData(RFIDHandler rfidHandler) {
         if (rfidHandler != null && rfidHandler.reader != null) {
-            rfidHandler.performInventory();
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-            rfidHandler.stopInventory();
+            try{
+                rfidHandler.performInventory();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+                rfidHandler.stopInventory();
+            }
+            catch (Exception ex){
+//                int length = 3000;
+//                Toast.makeText(this,ex.toString(), (int) length);
+            }
+
         }
     }
 

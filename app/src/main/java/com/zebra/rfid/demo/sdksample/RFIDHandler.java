@@ -19,6 +19,7 @@ import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
 import com.zebra.rfid.api3.Antennas;
 import com.zebra.rfid.api3.ENUM_TRANSPORT;
+import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
 import com.zebra.rfid.api3.HANDHELD_TRIGGER_EVENT_TYPE;
 import com.zebra.rfid.api3.INVENTORY_STATE;
 import com.zebra.rfid.api3.InvalidUsageException;
@@ -356,9 +357,9 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
     private void ConfigureReader() {
         Log.d(TAG, "ConfigureReader " + reader.getHostName());
         if (reader.isConnected()) {
-            TriggerInfo triggerInfo = new TriggerInfo();
-            triggerInfo.StartTrigger.setTriggerType(START_TRIGGER_TYPE.START_TRIGGER_TYPE_IMMEDIATE);
-            triggerInfo.StopTrigger.setTriggerType(STOP_TRIGGER_TYPE.STOP_TRIGGER_TYPE_IMMEDIATE);
+//            TriggerInfo triggerInfo = new TriggerInfo();
+//            triggerInfo.StartTrigger.setTriggerType(START_TRIGGER_TYPE.START_TRIGGER_TYPE_IMMEDIATE);
+//            triggerInfo.StopTrigger.setTriggerType(STOP_TRIGGER_TYPE.STOP_TRIGGER_TYPE_IMMEDIATE);
             try {
                 // receive events from reader
                 if (eventHandler == null)
@@ -372,8 +373,9 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 // set trigger mode as rfid so scanner beam will not come
                 // reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, false);
                 // set start and stop triggers
-                reader.Config.setStartTrigger(triggerInfo.StartTrigger);
-                reader.Config.setStopTrigger(triggerInfo.StopTrigger);
+
+//                reader.Config.setStartTrigger(triggerInfo.StartTrigger);
+//                reader.Config.setStopTrigger(triggerInfo.StopTrigger);
 
                 // power levels are index based so maximum power supported get the last one
                 MAX_POWER_CONFIG = reader.ReaderCapabilities.getTransmitPowerLevelValues().length - 1;
@@ -447,10 +449,17 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         if (!isReaderConnected())
             return;
         try {
+            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, false);
             reader.Actions.Inventory.perform();
+//            reader.Actions.Inventory.stop();
+            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.BARCODE_MODE, false);
         } catch (InvalidUsageException e) {
+//            int length = 3000;
+//            Toast.makeText(this.activityContext,e.toString(), (int) length);
             e.printStackTrace();
         } catch (OperationFailureException e) {
+//            int length = 3000;
+//            Toast.makeText(this.activityContext,e.toString(), (int) length);
             e.printStackTrace();
         }
     }
@@ -461,9 +470,14 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
             return;
         try {
             reader.Actions.Inventory.stop();
+            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.BARCODE_MODE, false);
         } catch (InvalidUsageException e) {
+//            int length = 3000;
+//            Toast.makeText(this.activityContext,e.toString(), (int) length);
             e.printStackTrace();
         } catch (OperationFailureException e) {
+//            int length = 3000;
+//            Toast.makeText(this.activityContext,e.toString(), (int) length);
             e.printStackTrace();
         }
     }

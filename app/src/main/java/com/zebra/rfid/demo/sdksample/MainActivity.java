@@ -33,6 +33,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
+import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
 import com.zebra.rfid.api3.InvalidUsageException;
 import com.zebra.rfid.api3.MEMORY_BANK;
 import com.zebra.rfid.api3.OperationFailureException;
@@ -216,6 +217,16 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
             rfidHandler.onDestroy();
             rfidHandler = new RFIDHandler(MainActivity.this);
             rfidHandler.onRFIDReadCreate(MainActivity.this);
+            try{
+                reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, false);
+            }
+            catch (InvalidUsageException e) {
+                showToast(e.toString());
+                e.printStackTrace();
+            } catch (OperationFailureException e) {
+                showToast(e.toString());
+                e.printStackTrace();
+            }
         }
         String rfidTagIDValue = "NA";
         TagAccess tagAccess = new TagAccess();
