@@ -186,6 +186,9 @@ public class ReadTagActivity extends AppCompatActivity implements RFIDHandler.Re
                                     if(result.length() > 18){
                                         result = result.substring(4, result.length());
                                     }
+                                    else {
+                                        result = result.substring(1, result.length());
+                                    }
                                     tagUserDataEditView.setText(result);
                                 }
                             }

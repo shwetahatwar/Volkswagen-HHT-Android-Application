@@ -246,7 +246,7 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                         if(response != null && response.data != null){
                             switch(response.statusCode){
                                 case 400: {
-                                    json = "Scanned PIN Number Not Present in Database!";
+                                    json = "Scanned KNR Number Not Present in Database!";
                                     break;
                                 }
                             }
@@ -304,8 +304,11 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                                     rfid_user_memory_value.setText(result);
                                 }
                                 else {
-                                    if(result.length() > 17){
+                                    if(result.length() > 18){
                                         result = result.substring(4, result.length());
+                                    }
+                                    else {
+                                        result = result.substring(1, result.length());
                                     }
                                     rfid_user_memory_value.setText(result);
                                 }
