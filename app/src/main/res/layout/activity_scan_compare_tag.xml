@@ -36,7 +36,7 @@
             android:layout_marginTop="10dp"
             android:background="@android:drawable/editbox_background"
             android:maxLines="1"
-            android:hint="Scan Pin Number"
+            android:hint="Scan PIN Number"
             android:textSize="18sp" />
 
         <TextView

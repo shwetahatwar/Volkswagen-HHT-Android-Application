@@ -18,6 +18,7 @@ import com.zebra.ASCII_SDK.IMsg;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
 import com.zebra.rfid.api3.Antennas;
+import com.zebra.rfid.api3.BEEPER_VOLUME;
 import com.zebra.rfid.api3.ENUM_TRANSPORT;
 import com.zebra.rfid.api3.ENUM_TRIGGER_MODE;
 import com.zebra.rfid.api3.HANDHELD_TRIGGER_EVENT_TYPE;
@@ -392,6 +393,8 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 config.setTari(0);
 
                 reader.Config.Antennas.setAntennaRfConfig(1, config);
+                BEEPER_VOLUME beeperVolume = reader.Config.getBeeperVolume();
+                reader.Config.setBeeperVolume(BEEPER_VOLUME.HIGH_BEEP);
                 // Set the singulation control
                 Antennas.SingulationControl s1_singulationControl = reader.Config.Antennas.getSingulationControl(1);
                 s1_singulationControl.setSession(SESSION.SESSION_S0);

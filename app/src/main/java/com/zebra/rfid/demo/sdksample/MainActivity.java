@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -174,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     }
 
     public String writeOperation() {
+        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Writing to RFID Tag");
+        progressDialog.show();
         try{
             if(rfidHandler != null && rfidHandler.reader != null){
             }
@@ -183,9 +188,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                 rfidHandler.onCreate(this);
             }
             String vinDataToWrite = "0" + vinData;
-            ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
-            progressDialog.setMessage("Writing to RFID Tag");
-            progressDialog.show();
+
             String response = rfidPerformInevntoryClass.writeToTagDataFunction(rfidHandler,checkRFIDData,vinDataToWrite);
             if(response == "Failed to write") {
                 try {
@@ -201,13 +204,18 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                         e.printStackTrace();
                     }
                     response = rfidPerformInevntoryClass.writeToTagDataFunction(rfidHandler,checkRFIDData,vinDataToWrite);
+                    if(response == "Failed to write"){
+                        finish();
+                        startActivity(getIntent());
+                    }
                 }
             }
             progressDialog.dismiss();
             return response;
         }
         catch (Exception ex){
-            return "";
+            progressDialog.dismiss();
+            return "Failed to write";
         }
     }
 
@@ -245,6 +253,8 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                 e.printStackTrace();
             }
             tagData = rfidHandler.reader.Actions.TagAccess.readWait(tagId, readAccessParams, null);
+            ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+            toneGen1.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,150);
             if (tagData != null) {
                 ACCESS_OPERATION_CODE readAccessOperation = tagData.getOpCode();
                 if (readAccessOperation != null) {
@@ -296,16 +306,32 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                             catch (Exception ex){
 
                             }
-                            writeOperation();
+                            String respone = writeOperation();
                             try{
                                 Thread.sleep(2000);
                             }
                             catch (Exception ex){
 
                             }
-                            writeOperation();
-                            Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
-                            startActivity(intent);
+                            respone = writeOperation();
+                            if(respone == "Failed to write"){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                alertDialogBuilder.setMessage("Failed to write. Please make sure the RFID Tag is in front of Reader and Try Again.");
+                                alertDialogBuilder.setPositiveButton("ok",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+
+                                        }
+                                    }
+                                );
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+                            }
+                            else {
+                                Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
+                                startActivity(intent);
+                            }
 //                            alertDialogBuilder.setPositiveButton("ok",
 //                                    new DialogInterface.OnClickListener() {
 //                                        @Override
@@ -516,10 +542,27 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                             catch (Exception ex){
 
                             }
-                            writeOperation();
-                            showSuccessToast("Data Re Written");
-                            Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
-                            startActivity(intent);
+                            String respone = writeOperation();
+                            if(respone == "Failed to write"){
+                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                alertDialogBuilder.setMessage("Failed to write. Please make sure the RFID Tag is in front of Reader and Try Again.");
+                                alertDialogBuilder.setPositiveButton("ok",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+
+                                            }
+                                        }
+                                );
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+                            }
+                            else {
+                                showSuccessToast("Data Re Written");
+                                Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
+                                startActivity(intent);
+                            }
+
 //                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
 //                            alertDialogBuilder.setMessage("Data Re Written");
 //                            alertDialogBuilder.setPositiveButton("ok",

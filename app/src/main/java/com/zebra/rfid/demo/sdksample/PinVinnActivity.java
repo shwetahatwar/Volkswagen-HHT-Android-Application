@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.nfc.Tag;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -34,6 +36,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.zebra.rfid.api3.ACCESS_OPERATION_CODE;
 import com.zebra.rfid.api3.ACCESS_OPERATION_STATUS;
+import com.zebra.rfid.api3.BEEPER_VOLUME;
 import com.zebra.rfid.api3.InvalidUsageException;
 import com.zebra.rfid.api3.MEMORY_BANK;
 import com.zebra.rfid.api3.OperationFailureException;
@@ -90,7 +93,7 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.back:
-                        startActivity(new Intent(getApplicationContext(), HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        startActivity(new Intent(getApplicationContext(), ScanCompareTagActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.home:
@@ -419,6 +422,7 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
             rfidLocalHandler = new RFIDHandler(PinVinnActivity.this);
             rfidLocalHandler.onRFIDReadCreate(PinVinnActivity.this);
         }
+
         String rfidTagIDValue = "NA";
         TagAccess tagAccess = new TagAccess();
         TagAccess.ReadAccessParams readAccessParams = tagAccess.new ReadAccessParams();
@@ -499,12 +503,18 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                             if (result.contains(vinnumber)) {
                                 if(tagIdValue.getText().toString().contains(tagPinNumberValue.getText().toString())){
                                     resultView = "Match";
+                                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+                                    toneGen1.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,150);
                                 }
                                 else {
                                     resultView = "Not OK";
+                                    ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+                                    toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT,150);
                                 }
                             } else {
                                 resultView = "Not OK";
+                                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+                                toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT,150);
                             }
 
                         }

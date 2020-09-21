@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -261,8 +263,12 @@ public class ReadTagActivity extends AppCompatActivity implements RFIDHandler.Re
                             rfidTagPinNumberValue = result;
                             if (result.contains(vinnumber)) {
                                 resultView = "OK";
+                                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+                                toneGen1.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,150);
                             } else {
                                 resultView = "NOK";
+                                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+                                toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_ALERT,150);
                             }
                         }
                     }
