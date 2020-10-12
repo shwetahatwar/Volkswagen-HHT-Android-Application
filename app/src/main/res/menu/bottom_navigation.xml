@@ -4,15 +4,18 @@
     <item
         android:icon="@drawable/ic_keyboard"
         android:id="@+id/back"
+        android:fontFamily="@font/skodaprobold"
         android:title="@string/title_back"/>
 
     <item
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
+        android:fontFamily="@font/skodaprobold"
         android:title="@string/title_home"/>
 
     <item
         android:id="@+id/search"
+        android:fontFamily="@font/skodaprobold"
         android:title=""/>
 
 </menu>

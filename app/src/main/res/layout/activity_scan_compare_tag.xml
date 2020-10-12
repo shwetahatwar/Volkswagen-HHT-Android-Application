@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="Scan PIN Number"
             android:textSize="14sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/skodaprobold"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text" />
@@ -37,6 +37,8 @@
             android:background="@android:drawable/editbox_background"
             android:maxLines="1"
             android:hint="Scan PIN Number"
+            android:fontFamily="@font/skodaprobold"
+            android:textColorHint="@color/skoda_hint"
             android:textSize="18sp" />
 
         <TextView
@@ -62,11 +64,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:itemBackground="@color/blue"
+            app:itemBackground="@color/skoda_green"
             android:background="?android:attr/windowBackground"
             app:itemIconTint="@color/bnv_tab_item_foreground"
             app:itemTextColor="@color/bnv_tab_item_foreground"
             android:fitsSystemWindows="true"
+            android:fontFamily="@font/skodaprobold"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_navigation">
 

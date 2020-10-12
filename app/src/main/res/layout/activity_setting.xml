@@ -14,15 +14,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Server IP Address"
-        android:textColor="#000000"
-        android:textStyle="bold" />
+        android:fontFamily="@font/skodaprobold"
+        android:textColor="#000000"/>
 
     <EditText
         android:id="@+id/ip_address_value"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
+        android:layout_height="46dp"
+        android:background="@drawable/edittext_bg"
         android:hint="http://192.168.0.104:3000"
+        android:fontFamily="@font/skodaprobold"
+        android:textColorHint="@color/skoda_hint"
         android:imeOptions="actionNext" />
 
     <TextView
@@ -33,14 +35,16 @@
         android:layout_marginRight="5dp"
         android:text="Power Antena"
         android:textColor="#000000"
-        android:textStyle="bold" />
+        android:fontFamily="@font/skodaprobold" />
 
     <EditText
         android:id="@+id/power_antena_value"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
+        android:layout_height="46dp"
+        android:background="@drawable/edittext_bg"
         android:hint="120"
+        android:textColorHint="@color/skoda_hint"
+        android:fontFamily="@font/skodaprobold"
         android:imeOptions="actionNext" />
 
     <Button
@@ -48,11 +52,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
+        android:fontFamily="@font/skodaprobold"
         android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:layout_gravity="center"
-        android:background="#0d47a1"
+        android:background="#4BA82E"
         android:textColor="#FFFFFF">
 
     </Button>

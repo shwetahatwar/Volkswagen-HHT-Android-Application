@@ -7,7 +7,7 @@
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        android:textStyle="bold"
+        android:fontFamily="@font/skodaprobold"
         app:showAsAction="never" />
 
 <!--    <item-->

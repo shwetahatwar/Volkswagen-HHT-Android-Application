@@ -31,12 +31,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Scanned PIN Number"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/skodaprobold" />
 
                 <TextView
                     android:id="@+id/pinNumberValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/skodaprobold"
                     android:text="NA" />
 
                 <TextView
@@ -45,20 +46,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="Data Fetch From Database"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textStyle="bold" />
+                    android:textColor="@color/skoda_blue_color"
+                    android:fontFamily="@font/skodaprobold" />
 
                 <TextView
                     android:id="@+id/tagIdLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TAG ID associated with scanned PIN number"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/skodaprobold" />
 
                 <TextView
                     android:id="@+id/tagIdValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/skodaprobold"
                     android:text="NA" />
 
                 <TextView
@@ -67,12 +69,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="VIN No.associated with scanned PIN number"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/skodaprobold" />
 
                 <TextView
                     android:id="@+id/vinNumberValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/skodaprobold"
                     android:text="NA" />
 
                 <LinearLayout
@@ -87,13 +90,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="RFID Reader Status:"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/skodaprobold" />
 
                     <TextView
                         android:id="@+id/readerStatusValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/skodaprobold"
                         android:text="NA" />
                 </LinearLayout>
 
@@ -102,9 +106,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
-                    android:background="#2196F3"
+                    android:background="#4BA82E"
                     android:text="Read Tag and Compare"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/skodaprobold"/>
 
 
 
@@ -120,14 +125,15 @@
                         android:layout_marginTop="2dp"
                         android:layout_weight="1"
                         android:text="Read RFID Data"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/skodaprobold" />
 
                     <TextView
                         android:id="@+id/tagPinNumberValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:nextFocusDown="@+id/tagPinNumberValue"
-                        android:text="NA" />
+                        android:text="NA"
+                        android:fontFamily="@font/skodaprobold"/>
 
                     <TextView
                         android:id="@+id/rfid_user_memory_label"
@@ -136,13 +142,14 @@
                         android:layout_marginTop="2dp"
                         android:layout_weight="1"
                         android:text="Read RFID user memory data"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/skodaprobold" />
 
                     <TextView
                         android:id="@+id/rfid_user_memory_value"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="NA" />
+                        android:text="NA"
+                        android:fontFamily="@font/skodaprobold"/>
 
 
                     <LinearLayout
@@ -157,13 +164,14 @@
                             android:layout_height="wrap_content"
                             android:paddingRight="10dp"
                             android:text="Result"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/skodaprobold" />
 
                         <TextView
                             android:id="@+id/compareResultViewValue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/skodaprobold"
                             android:text="NA" />
 
                     </LinearLayout>
@@ -201,12 +209,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/blue"
+        app:itemBackground="@color/skoda_green"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/bnv_tab_item_foreground"
         app:itemTextColor="@color/bnv_tab_item_foreground"
         android:fitsSystemWindows="true"
         app:labelVisibilityMode="labeled"
+        android:fontFamily="@font/skodaprobold"
         app:menu="@menu/bottom_navigation">
 
     </android.support.design.widget.BottomNavigationView>

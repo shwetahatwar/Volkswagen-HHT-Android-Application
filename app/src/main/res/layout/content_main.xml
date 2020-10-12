@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Scanned PIN Number"
-        android:textStyle="bold"
+        android:fontFamily="@font/skodaprobold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textStatus" />
 
@@ -26,6 +26,7 @@
         android:id="@+id/mainpin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/skodaprobold"
         android:hint="PIN" />
 
     <TextView
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Scanned VIN Number"
-        android:textStyle="bold"
+        android:fontFamily="@font/skodaprobold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textStatus" />
 
@@ -43,6 +44,7 @@
         android:id="@+id/mainvin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/skodaprobold"
         android:hint="VIN" />
 
 
@@ -58,7 +60,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="10dp"
             android:text="RFID Reader status:"
-            android:textStyle="bold"
+            android:fontFamily="@font/skodaprobold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NA"
+            android:fontFamily="@font/skodaprobold"
             android:textColor="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -95,6 +98,8 @@
             android:imeOptions="actionNext"
             android:background="@android:drawable/editbox_background"
             android:hint="Tag Id"
+            android:fontFamily="@font/skodaprobold"
+            android:textColorHint="@color/skoda_hint"
             android:minHeight="50dp"
             android:textSize="14sp" />
 
@@ -108,8 +113,9 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
-            android:background="@android:color/holo_blue_dark"
+            android:background="#4BA82E"
             android:text="Read Tag Id"
+            android:fontFamily="@font/skodaprobold"
             android:imeOptions="actionNext"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -121,7 +127,8 @@
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
         android:imeOptions="actionNext"
-        android:background="@android:color/holo_purple"
+        android:fontFamily="@font/skodaprobold"
+        android:background="#4BA82E"
         android:text="Write to Tag"
         android:textColor="@android:color/white" />
 

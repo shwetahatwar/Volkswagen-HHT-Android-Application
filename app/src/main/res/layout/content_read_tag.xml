@@ -31,13 +31,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="RFID Reader Status:"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/skodaprobold" />
 
                 <TextView
                     android:id="@+id/rfidReaderStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColorHint="@color/skoda_hint"
+                    android:fontFamily="@font/skodaprobold"
                     android:text="NA"/>
             </LinearLayout>
 
@@ -53,7 +55,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="2dp"
                     android:text="Tag Id"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/skodaprobold" />
 
                 <EditText
                     android:id="@+id/editRFIDText"
@@ -63,6 +65,8 @@
                     android:ems="10"
                     android:imeOptions="actionNext"
                     android:hint="Read RFID Tag"
+                    android:fontFamily="@font/skodaprobold"
+                    android:textColorHint="@color/skoda_hint"
                     android:inputType="textPersonName"
                     android:minHeight="40dp" />
             </LinearLayout>
@@ -79,8 +83,8 @@
                     android:layout_height="wrap_content"
                     android:text="VIN No.associated with RFID tag user memory"
                     android:imeOptions="actionNext"
-                    android:textColor="@android:color/holo_blue_dark"
-                    android:textStyle="bold" />
+                    android:textColor="#73b1dd"
+                    android:fontFamily="@font/skodaprobold" />
 
                 <EditText
                     android:id="@+id/tagUserDataEditView"
@@ -92,6 +96,7 @@
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
                     android:lines="1"
+                    android:fontFamily="@font/skodaprobold"
                     android:singleLine="false" />
 
             </LinearLayout>
@@ -107,8 +112,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:textColor="#FFFFFF"
-                    android:background="#0d47a1"
-                    android:text="Read Tag Data" />
+                    android:background="#4BA82E"
+                    android:text="Read Tag Data"
+                    android:fontFamily="@font/skodaprobold"/>
 
             </LinearLayout>
 
@@ -123,8 +129,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:textColor="#FFFFFF"
-                    android:background="#0d47a1"
-                    android:text="Clear" />
+                    android:background="#4BA82E"
+                    android:text="Clear"
+                    android:fontFamily="@font/skodaprobold"/>
 
             </LinearLayout>
 
@@ -160,12 +167,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:itemBackground="@color/blue"
+            app:itemBackground="@color/skoda_green"
             android:background="?android:attr/windowBackground"
             app:itemIconTint="@color/bnv_tab_item_foreground"
             app:itemTextColor="@color/bnv_tab_item_foreground"
             android:fitsSystemWindows="true"
             app:labelVisibilityMode="labeled"
+            android:fontFamily="@font/skodaprobold"
             app:menu="@menu/bottom_navigation">
 
         </android.support.design.widget.BottomNavigationView>

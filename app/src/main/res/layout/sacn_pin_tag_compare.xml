@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:text="Scan PIN Number"
                 android:textSize="14sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/skodaprobold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text" />
 
@@ -33,6 +33,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@android:drawable/editbox_background"
                 android:hint="Scan Pin Number"
+                android:fontFamily="@font/skodaprobold"
+                android:textColorHint="@color/skoda_hint"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -76,12 +78,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tag ID"
-                android:textStyle="bold" />
+                android:fontFamily="@font/skodaprobold" />
 
             <TextView
                 android:id="@+id/RFIDValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/skodaprobold"
                 android:text="NA" />
 
             <TextView
@@ -90,13 +93,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="PIN Number"
-                android:textStyle="bold" />
+                android:fontFamily="@font/skodaprobold" />
 
             <TextView
                 android:id="@+id/pinNumberValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="NA" />
+                android:text="NA"
+                android:fontFamily="@font/skodaprobold"/>
 
 <!--            <TextView-->
 <!--                android:id="@+id/textView11"-->
@@ -123,6 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/skodaprobold"
                     android:text="Reader Status" />
 
                 <TextView
@@ -130,6 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/skodaprobold"
                     android:text="NA" />
             </LinearLayout>
 
@@ -138,7 +144,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#2196F3"
+                android:background="#4BA82E"
+                android:fontFamily="@font/skodaprobold"
                 android:text="Read Tag and Compare"
                 android:textColor="#FFFFFF" />
 
@@ -147,6 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/skodaprobold"
                 android:text="NA" />
 
             <LinearLayout
@@ -161,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="10dp"
                     android:text="Result"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/skodaprobold" />
 
                 <TextView
                     android:id="@+id/compareResultView"
@@ -169,6 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="NA"
+                    android:fontFamily="@font/skodaprobold"
                     android:textColor="@color/colorAccent" />
 
             </LinearLayout>
@@ -188,12 +197,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/blue"
+        app:itemBackground="@color/skoda_green"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/bnv_tab_item_foreground"
         app:itemTextColor="@color/bnv_tab_item_foreground"
         android:fitsSystemWindows="true"
         app:labelVisibilityMode="labeled"
+        android:fontFamily="@font/skodaprobold"
         app:menu="@menu/bottom_navigation">
     </android.support.design.widget.BottomNavigationView>
 

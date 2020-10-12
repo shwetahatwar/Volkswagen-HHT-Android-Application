@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="Scan PIN Number"
             android:layout_marginBottom="3dp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/skodaprobold" />
 
         <EditText
             android:id="@+id/pinValue"
@@ -28,6 +28,7 @@
             android:background="@android:drawable/editbox_background"
             android:hint=""
             android:maxLines="1"
+            android:fontFamily="@font/skodaprobold"
             android:imeOptions="actionNext" />
 
         <TextView
@@ -36,7 +37,7 @@
             android:layout_marginTop="20dp"
             android:text="Scan VIN Number"
             android:layout_marginBottom="3dp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/skodaprobold" />
 
         <EditText
             android:id="@+id/vinValue"
@@ -45,6 +46,7 @@
             android:background="@android:drawable/editbox_background"
             android:hint=""
             android:maxLines="1"
+            android:fontFamily="@font/skodaprobold"
             android:imeOptions="actionDone" />
 
         <TextView
@@ -77,12 +79,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/blue"
+        app:itemBackground="@color/skoda_green"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@color/bnv_tab_item_foreground"
         app:itemTextColor="@color/bnv_tab_item_foreground"
         android:fitsSystemWindows="true"
         app:labelVisibilityMode="labeled"
+        android:fontFamily="@font/skodaprobold"
         app:menu="@menu/bottom_navigation">
     </android.support.design.widget.BottomNavigationView>
 
