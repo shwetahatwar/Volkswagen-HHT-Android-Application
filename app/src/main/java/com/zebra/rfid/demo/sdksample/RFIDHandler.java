@@ -393,8 +393,8 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
                 config.setTari(0);
 
                 reader.Config.Antennas.setAntennaRfConfig(1, config);
-                BEEPER_VOLUME beeperVolume = reader.Config.getBeeperVolume();
-                reader.Config.setBeeperVolume(BEEPER_VOLUME.HIGH_BEEP);
+//                BEEPER_VOLUME beeperVolume = reader.Config.getBeeperVolume();
+//                reader.Config.setBeeperVolume(BEEPER_VOLUME.HIGH_BEEP);
                 // Set the singulation control
                 Antennas.SingulationControl s1_singulationControl = reader.Config.Antennas.getSingulationControl(1);
                 s1_singulationControl.setSession(SESSION.SESSION_S0);
@@ -452,10 +452,10 @@ class RFIDHandler implements Readers.RFIDReaderEventHandler {
         if (!isReaderConnected())
             return;
         try {
-            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, false);
+//            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.RFID_MODE, false);
             reader.Actions.Inventory.perform();
 //            reader.Actions.Inventory.stop();
-            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.BARCODE_MODE, false);
+//            reader.Config.setTriggerMode(ENUM_TRIGGER_MODE.BARCODE_MODE, false);
         } catch (InvalidUsageException e) {
 //            int length = 3000;
 //            Toast.makeText(this.activityContext,e.toString(), (int) length);

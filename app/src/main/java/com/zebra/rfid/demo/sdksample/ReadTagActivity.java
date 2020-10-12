@@ -155,63 +155,96 @@ public class ReadTagActivity extends AppCompatActivity implements RFIDHandler.Re
     @Override
     public void handleTagdata(TagData[] tagData) {
         try {
-            Thread.sleep(2000);
-            if(counter < 2) {
+//            Thread.sleep(2000);
+//            if(counter < 2) {
                 final StringBuilder sb = new StringBuilder();
                 sb.setLength(0);
                 for (int index = 0; index < 1; index++) {
                     sb.append(tagData[index].getTagID());
                 }
-
-                runOnUiThread(new Runnable() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void run() {
-
-                        if (rfidLocalHandler != null && rfidLocalHandler.reader != null) {
-                            String TIDData = readTIDData(sb.toString());
-                            if(!TIDData.contains("NA") || TIDData.length() > 0){
-                                rfidTagScanView.setText(TIDData);
-                                String readUserDataValue = readUserData(sb.toString(), "");
-                                String[] separated = readUserDataValue.split(";");
-                                String result = separated[0].replaceAll(" ", "");
-                                result = result.replaceAll("\\p{C}", "");
-                                if(result.length() == 0) {
-                                    result = "No Data in Tag";
-                                    tagUserDataEditView.setText(result);
-                                }
-                                else {
-                                    //String displayResult = result.substring(4, result.length());
+                Thread.sleep(2000);
+                if (rfidLocalHandler != null && rfidLocalHandler.reader != null) {
+                    String TIDData = readTIDData(sb.toString());
+                    if(!TIDData.contains("NA") || TIDData.length() > 0){
+                        rfidTagScanView.setText(TIDData);
+                        String readUserDataValue = readUserData(sb.toString(), "");
+                        String[] separated = readUserDataValue.split(";");
+                        String result = separated[0].replaceAll(" ", "");
+                        result = result.replaceAll("\\p{C}", "");
+                        if(result.length() == 0) {
+                            result = "No Data in Tag";
+                            tagUserDataEditView.setText(result);
+                        }
+                        else {
+                            //String displayResult = result.substring(4, result.length());
 //                                if(result.length() == 18){
 //                                    tagUserDataEditView.setText(result);
 //                                }
-                                    if(result.length() > 18){
-                                        result = result.substring(4, result.length());
-                                    }
-                                    else {
-                                        result = result.substring(1, result.length());
-                                    }
-                                    tagUserDataEditView.setText(result);
-                                }
+                            if(result.length() > 18){
+                                result = result.substring(4, result.length());
                             }
                             else {
-                                rfidTagScanView.setText("");
-                                tagUserDataEditView.setText("");
-                                rfidTagScanView.requestFocus();
+                                result = result.substring(1, result.length());
                             }
+                            tagUserDataEditView.setText(result);
                         }
                     }
-                });
-            }
-            else {
-                runOnUiThread(new Runnable() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void run() {
-                        showToast();
+                    else {
+                        rfidTagScanView.setText("");
+                        tagUserDataEditView.setText("");
+                        rfidTagScanView.requestFocus();
                     }
-                });
-            }
+                }
+//                runOnUiThread(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//
+//                        if (rfidLocalHandler != null && rfidLocalHandler.reader != null) {
+//                            String TIDData = readTIDData(sb.toString());
+//                            if(!TIDData.contains("NA") || TIDData.length() > 0){
+//                                rfidTagScanView.setText(TIDData);
+//                                String readUserDataValue = readUserData(sb.toString(), "");
+//                                String[] separated = readUserDataValue.split(";");
+//                                String result = separated[0].replaceAll(" ", "");
+//                                result = result.replaceAll("\\p{C}", "");
+//                                if(result.length() == 0) {
+//                                    result = "No Data in Tag";
+//                                    tagUserDataEditView.setText(result);
+//                                }
+//                                else {
+//                                    //String displayResult = result.substring(4, result.length());
+////                                if(result.length() == 18){
+////                                    tagUserDataEditView.setText(result);
+////                                }
+//                                    if(result.length() > 18){
+//                                        result = result.substring(4, result.length());
+//                                    }
+//                                    else {
+//                                        result = result.substring(1, result.length());
+//                                    }
+//                                    tagUserDataEditView.setText(result);
+//                                }
+//                            }
+//                            else {
+//                                rfidTagScanView.setText("");
+//                                tagUserDataEditView.setText("");
+//                                rfidTagScanView.requestFocus();
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//            else {
+//                runOnUiThread(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//                        showToast();
+//                        counter = 0;
+//                    }
+//                });
+//            }
         }
         catch (Exception ex) {
 

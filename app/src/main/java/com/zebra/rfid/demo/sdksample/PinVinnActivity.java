@@ -281,67 +281,107 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
     public void handleTagdata(TagData[] tagData) {
         try{
             Thread.sleep(2000);
-            if(counter < 2) {
+//            if(counter < 2) {
                 final StringBuilder sb = new StringBuilder();
                 sb.setLength(0);
                 for (int index = 0; index < 1; index++) {
                     sb.append(tagData[index].getTagID());
                 }
-//        tagPinNumberValue.setText(sb.toString());
-                runOnUiThread(new Runnable() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void run() {
-                        if (rfidLocalHandler != null && rfidLocalHandler.reader != null)
-                        {
-                            String vinnumber = vinNumberValue.getText().toString();
-                            String TIDData = readTIDData(sb.toString());
-                            if(!TIDData.contains("NA") || TIDData.length() > 0){
-                                tagPinNumberValue.setText(TIDData);
-                                String readUserDataValue = readUserData(sb.toString(),vinnumber);
-                                String[] separated = readUserDataValue.split(";");
-                                String result = separated[0].replaceAll(" ", "");
-                                result = result.replaceAll("\\p{C}", "");
-                                if(result.length() == 0) {
-                                    result = "No Data in Tag";
-                                    rfid_user_memory_value.setText(result);
-                                }
-                                else {
-                                    if(result.length() > 18){
-                                        result = result.substring(4, result.length());
-                                    }
-                                    else {
-                                        result = result.substring(1, result.length());
-                                    }
-                                    rfid_user_memory_value.setText(result);
-                                }
-
-                                resultView.setText(separated[1]);
-
-                                if (separated[1].contains("Match")){
-                                    updateDataCP8();
-                                    resultView.setTextColor(Color.parseColor("#07bc0c"));
-                                }else{
-                                    resultView.setTextColor(Color.parseColor("#FF0000"));
-                                }
+                Thread.sleep(2000);
+                tagPinNumberValue.setText(sb.toString());
+                if (rfidLocalHandler != null && rfidLocalHandler.reader != null)
+                {
+                    String vinnumber = vinNumberValue.getText().toString();
+                    String TIDData = readTIDData(sb.toString());
+                    if(!TIDData.contains("NA") || TIDData.length() > 0){
+                        tagPinNumberValue.setText(TIDData);
+                        String readUserDataValue = readUserData(sb.toString(),vinnumber);
+                        String[] separated = readUserDataValue.split(";");
+                        String result = separated[0].replaceAll(" ", "");
+                        result = result.replaceAll("\\p{C}", "");
+                        if(result.length() == 0) {
+                            result = "No Data in Tag";
+                            rfid_user_memory_value.setText(result);
+                        }
+                        else {
+                            if(result.length() > 18){
+                                result = result.substring(4, result.length());
                             }
                             else {
-                                tagPinNumberValue.setText("No Tag Read");
+                                result = result.substring(1, result.length());
                             }
+                            rfid_user_memory_value.setText(result);
                         }
 
+                        resultView.setText(separated[1]);
+
+                        if (separated[1].contains("Match")){
+                            updateDataCP8();
+                            resultView.setTextColor(Color.parseColor("#07bc0c"));
+                        }else{
+                            resultView.setTextColor(Color.parseColor("#FF0000"));
+                        }
                     }
-                });
-            }
-            else {
-                runOnUiThread(new Runnable() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void run() {
-                        showToast();
+                    else {
+                        tagPinNumberValue.setText("No Tag Read");
                     }
-                });
-            }
+                }
+
+//        tagPinNumberValue.setText(sb.toString());
+//                runOnUiThread(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//                        if (rfidLocalHandler != null && rfidLocalHandler.reader != null)
+//                        {
+//                            String vinnumber = vinNumberValue.getText().toString();
+//                            String TIDData = readTIDData(sb.toString());
+//                            if(!TIDData.contains("NA") || TIDData.length() > 0){
+//                                tagPinNumberValue.setText(TIDData);
+//                                String readUserDataValue = readUserData(sb.toString(),vinnumber);
+//                                String[] separated = readUserDataValue.split(";");
+//                                String result = separated[0].replaceAll(" ", "");
+//                                result = result.replaceAll("\\p{C}", "");
+//                                if(result.length() == 0) {
+//                                    result = "No Data in Tag";
+//                                    rfid_user_memory_value.setText(result);
+//                                }
+//                                else {
+//                                    if(result.length() > 18){
+//                                        result = result.substring(4, result.length());
+//                                    }
+//                                    else {
+//                                        result = result.substring(1, result.length());
+//                                    }
+//                                    rfid_user_memory_value.setText(result);
+//                                }
+//
+//                                resultView.setText(separated[1]);
+//
+//                                if (separated[1].contains("Match")){
+//                                    updateDataCP8();
+//                                    resultView.setTextColor(Color.parseColor("#07bc0c"));
+//                                }else{
+//                                    resultView.setTextColor(Color.parseColor("#FF0000"));
+//                                }
+//                            }
+//                            else {
+//                                tagPinNumberValue.setText("No Tag Read");
+//                            }
+//                        }
+//
+//                    }
+//                });
+//            }
+//            else {
+//                runOnUiThread(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//                        showToast();
+//                    }
+//                });
+//            }
         }
         catch (Exception ex) {
 

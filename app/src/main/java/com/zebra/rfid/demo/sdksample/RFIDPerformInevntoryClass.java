@@ -32,7 +32,6 @@ public class RFIDPerformInevntoryClass extends AppCompatActivity implements RFID
 //                int length = 3000;
 //                Toast.makeText(this,ex.toString(), (int) length);
             }
-
         }
     }
 

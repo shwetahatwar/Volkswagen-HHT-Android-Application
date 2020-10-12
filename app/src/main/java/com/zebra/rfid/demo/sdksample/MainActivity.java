@@ -61,7 +61,6 @@ import java.util.regex.Pattern;
 public class MainActivity extends AppCompatActivity implements RFIDHandler.ResponseHandlerInterface {
 
     public TextView statusTextViewRFID = null;
-//    private TextView textViewBtnData;
     private TextView textrfid;
     private TextView TagIdView;
     public static RFIDReader reader;
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     private RFIDHandler.EventHandler eventHandler;
     int counter = 0;
     boolean triggerPressed = true;
+    boolean isSucess = true;
 
     RFIDPerformInevntoryClass rfidPerformInevntoryClass = new RFIDPerformInevntoryClass();
     hexConverstion newHexConverstion = new hexConverstion();
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     String vinData;
     String pinData;
     String writeData,TagDataShow;
-//    TextView accessRWData;
     String URL;
     String TIDData;
 
@@ -95,19 +94,13 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     RFIDHandler rfidHandler;
     final static String TAG = "RFID_SAMPLE";
     boolean checkStatus= false;
-//    String rfidTagData = "";
     private Object MainActivity;
-
-//    RFIDPerformInevntoryClass rfidPerformInevntoryClass = new RFIDPerformInevntoryClass();
 
     @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        rfidHandler.onDestroy();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        textViewBtnData = findViewById(R.id.textViewBtnData);
 
         mainpin = findViewById(R.id.mainpin);
         mainvin = findViewById(R.id.mainvin);
@@ -123,9 +116,6 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
 
         // UI
         statusTextViewRFID = findViewById(R.id.textStatus);
-//        textrfid = findViewById(R.id.epcTagID);
-//        accessRWData = findViewById(R.id.accessRWData);
-//        accessRWData.setText("NA");
 
         // RFID Handler
         rfidHandler = new RFIDHandler( MainActivity.this);
@@ -142,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.back:
+                        isSucess = true;
                         Intent intent = new Intent(getApplicationContext(), ScanVinPinActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -176,9 +167,6 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     }
 
     public String writeOperation() {
-        ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setMessage("Writing to RFID Tag");
-        progressDialog.show();
         try{
             if(rfidHandler != null && rfidHandler.reader != null){
             }
@@ -191,37 +179,32 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
 
             String response = rfidPerformInevntoryClass.writeToTagDataFunction(rfidHandler,checkRFIDData,vinDataToWrite);
             if(response == "Failed to write") {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                response = rfidPerformInevntoryClass.writeToTagDataFunction(rfidHandler,checkRFIDData,vinDataToWrite);
-                if(response == "Failed to write") {
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    response = rfidPerformInevntoryClass.writeToTagDataFunction(rfidHandler,checkRFIDData,vinDataToWrite);
-                    if(response == "Failed to write"){
-                        finish();
-                        startActivity(getIntent());
-                    }
-                }
+//                try {
+//                    runOnUiThread(new Runnable() {
+//                        @SuppressLint("LongLogTag")
+//                        @Override
+//                        public void run() {
+//                            showSuccessToast("Writing to Tag. Please Wait");
+//                        }
+//                    });
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
-            progressDialog.dismiss();
+            else {
+                ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 200);
+                toneGen1.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD,150);
+            }
             return response;
         }
         catch (Exception ex){
-            progressDialog.dismiss();
             return "Failed to write";
         }
     }
 
     public String readTIDData(String tagId){
         if(rfidHandler != null && rfidHandler.reader != null){
-//            rfidPerformInevntoryClass.readRFIDTagData(rfidLocalHandler);
         }
         else {
             rfidHandler.onDestroy();
@@ -248,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
         TagData tagData = null;
         try {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -260,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                 if (readAccessOperation != null) {
                     if (tagData.getOpStatus() != null && !tagData.getOpStatus().equals(ACCESS_OPERATION_STATUS.ACCESS_SUCCESS)) {
                         String strErr = tagData.getOpStatus().toString().replaceAll("_", " ");
-//                        Toast.makeText(this, strErr, Toast.LENGTH_SHORT).show();
                         showToast("Tag ID Reading Failed");
                         rfidTagIDValue = "NA";
 
@@ -284,36 +266,17 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     }
 
     public void postRequesttoDatabase() {
-        ProgressDialog progress = new ProgressDialog(this);
         try {
-            progress.show(this,"","Updating in Database");
             RequestQueue queue = Volley.newRequestQueue(this);
             @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
                     Context.MODE_APPEND);
             URL = sh.getString("server_ip", "");
-//            URL = URL + "/masters";
             URL = URL + "/rfidtagmasters";
             StringRequest postRequest = new StringRequest(Request.Method.POST, URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            showSuccessToast("Data Updated Successfully with TAG ID PIN number and VIN number");
-//                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-//                            alertDialogBuilder.setMessage("Data Updated Successfully with TAG ID PIN number and VIN number");
-                            try{
-                                Thread.sleep(2000);
-                            }
-                            catch (Exception ex){
-
-                            }
                             String respone = writeOperation();
-                            try{
-                                Thread.sleep(2000);
-                            }
-                            catch (Exception ex){
-
-                            }
-                            respone = writeOperation();
                             if(respone == "Failed to write"){
                                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                                 alertDialogBuilder.setMessage("Failed to write. Please make sure the RFID Tag is in front of Reader and Try Again.");
@@ -321,7 +284,8 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
-
+                                            isSucess = true;
+                                            triggerPressed = true;
                                         }
                                     }
                                 );
@@ -329,21 +293,11 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                                 alertDialog.show();
                             }
                             else {
+                                showSuccessToast("Data Updated Successfully with TAG ID PIN number and VIN number");
+                                isSucess = true;
                                 Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
                                 startActivity(intent);
                             }
-//                            alertDialogBuilder.setPositiveButton("ok",
-//                                    new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface arg0, int arg1) {
-//                                            rfidHandler.onDestroy();
-//                                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                            );
-//                            AlertDialog alertDialog = alertDialogBuilder.create();
-//                            alertDialog.show();
                         }
                     },
                     new Response.ErrorListener() {
@@ -357,26 +311,24 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                                     case 400: {
                                         json = new String(response.data);
                                         json = json.substring(21, json.length() - 3);
-//                                        json = trimMessage(json, "message");
-//                                        if(json != null) displayMessage(json);
                                         break;
                                     }
                                 }
-                                //Additional cases
                             }
                             if(json.length() <= 0){
                                 json = "Please try again";
                             }
                             alertDialogBuilder.setMessage(json);
                             alertDialogBuilder.setPositiveButton("ok",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            rfidHandler.onDestroy();
-                                            Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
-                                            startActivity(intent);
-                                        }
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        rfidHandler.onDestroy();
+                                        isSucess = true;
+                                        Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
+                                        startActivity(intent);
                                     }
+                                }
                             );
                             AlertDialog alertDialog = alertDialogBuilder.create();
                             alertDialog.show();
@@ -395,12 +347,8 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
 
             };
             queue.add(postRequest);
-            progress.dismiss();
-            progress.cancel();
         }
         catch (Exception e) {
-            progress.dismiss();
-            progress.cancel();
         }
     }
 
@@ -426,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     public void handleTagdata(TagData[] tagData) {
         try {
             Thread.sleep(2000);
-            if(counter < 2) {
+//            if(counter < 2) {
                 final StringBuilder sb = new StringBuilder();
                 sb.setLength(0);
                 if(tagData.length != 0) {
@@ -434,32 +382,34 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                         sb.append(tagData[index].getTagID());
                         tagData[0].getMemoryBank();
                     }
+                    Thread.sleep(2000);
                     checkRFIDData = sb.toString();
+                    TIDData = readTIDData(sb.toString());
+                    TagIdView.setText(TIDData);
                 }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        checkRFIDData = sb.toString();
-                        TIDData = readTIDData(sb.toString());
-                        TagIdView.setText(TIDData);
-                    }
-                });
-            }
-            else {
-                runOnUiThread(new Runnable() {
-                    @SuppressLint("LongLogTag")
-                    @Override
-                    public void run() {
-                        showToast("Please ensure only one tag is in the Vicinity and Try Again");
-                    }
-                });
-            }
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        checkRFIDData = sb.toString();
+////                        TIDData = readTIDData(sb.toString());
+////                        TagIdView.setText(TIDData);
+//                    }
+//                });
+//            }
+//            else {
+//                runOnUiThread(new Runnable() {
+//                    @SuppressLint("LongLogTag")
+//                    @Override
+//                    public void run() {
+//                        showToast("Please ensure only one tag is in the Vicinity and Try Again");
+//                    }
+//                });
+//            }
         }
         catch (Exception ex) {
 
         }
-
     }
 
     public void showToast(String error) {
@@ -473,7 +423,8 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
     //on trigger rfid read
     @SuppressLint("LongLogTag")
     public void handleTriggerPress(boolean pressed) {
-        if(triggerPressed == true) {
+        if(triggerPressed == true && isSucess == true) {
+            isSucess = false;
             triggerPressed = false;
             counter = 0;
             String textrfid = TagIdView.getText().toString();
@@ -482,6 +433,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                 getDataForEPC();
             } else {
                 rfidPerformInevntoryClass.readRFIDTagData(rfidHandler);
+                isSucess = true;
             }
             triggerPressed = true;
         }
@@ -499,14 +451,10 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
 
     public void getDataForEPC() {
         try{
-//        rfidHandler.onCreate(this);
             @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
                     Context.MODE_APPEND);
             URL = sh.getString("server_ip", "");
-
             RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-//        URL = URL + "/masters?epcId=" + TIDData;
             URL = URL + "/rfidtagmasters?epcId=" + TIDData;
             JsonArrayRequest objectRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -531,70 +479,43 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                         String mainPinNumber = mainpin.getText().toString();
                         if(databaseVinNumber == "" || databaseVinNumber == null) {
                             Log.e("Not Present in Database","Not Present in Database");
-//                                String gotResponse = writeOperation();
                             postRequesttoDatabase();
                         }
                         else if(mainVinNumber.equals(databaseVinNumber) && mainPinNumber.equals(databasePinNumber)){
                             Log.e("Data Match","Data Matched");
                             try{
-                                Thread.sleep(2000);
+                                String respone = writeOperation();
+                                if(respone == "Failed to write"){
+                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                                    alertDialogBuilder.setMessage("Failed to write. Please make sure the RFID Tag is in front of Reader and Try Again.");
+                                    alertDialogBuilder.setPositiveButton("ok",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface arg0, int arg1) {
+
+                                                }
+                                            }
+                                    );
+                                    AlertDialog alertDialog = alertDialogBuilder.create();
+                                    alertDialog.show();
+                                }
+                                else {
+                                    showSuccessToast("Data Updated Successfully with TAG ID PIN number and VIN number");
+                                    isSucess = true;
+                                    Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
+                                    startActivity(intent);
+                                }
+//                                runOnUiThread(new Runnable() {
+//                                    @SuppressLint("LongLogTag")
+//                                    @Override
+//                                    public void run() {
+//                                        showSuccessToast("Writing to Tag. Please Wait");
+//                                    }
+//                                });
                             }
                             catch (Exception ex){
 
                             }
-                            String respone = writeOperation();
-                            if(respone == "Failed to write"){
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                                alertDialogBuilder.setMessage("Failed to write. Please make sure the RFID Tag is in front of Reader and Try Again.");
-                                alertDialogBuilder.setPositiveButton("ok",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface arg0, int arg1) {
-
-                                            }
-                                        }
-                                );
-                                AlertDialog alertDialog = alertDialogBuilder.create();
-                                alertDialog.show();
-                            }
-                            else {
-                                showSuccessToast("Data Re Written");
-                                Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
-                                startActivity(intent);
-                            }
-
-//                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-//                            alertDialogBuilder.setMessage("Data Re Written");
-//                            alertDialogBuilder.setPositiveButton("ok",
-//                                    new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface arg0, int arg1) {
-//                                            rfidHandler.onDestroy();
-//                                            Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                            );
-//                            AlertDialog alertDialog = alertDialogBuilder.create();
-//                            alertDialog.show();
-//                                String gotResponse = writeOperation();
-//                                if(gotResponse.length() <= 0){
-//                                    gotResponse = "Please try again";
-//                                }
-//                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-//                                alertDialogBuilder.setMessage(gotResponse);
-//                                alertDialogBuilder.setPositiveButton("ok",
-//                                        new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface arg0, int arg1) {
-//                                                rfidHandler.onDestroy();
-//                                                Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
-//                                                startActivity(intent);
-//                                            }
-//                                        }
-//                                );
-//                                AlertDialog alertDialog = alertDialogBuilder.create();
-//                                alertDialog.show();
                         }
                         else {
                             Log.e("Data Not Match","Data Not Matched");
@@ -614,12 +535,9 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                                 case 400: {
                                     json = new String(response.data);
                                     json = json.substring(21, json.length() - 3);
-//                                        json = trimMessage(json, "message");
-//                                        if(json != null) displayMessage(json);
                                     break;
                                 }
                             }
-                            //Additional cases
                         }
                         if(json.length() <= 0){
                             json = "Please try again";
@@ -630,6 +548,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                                     @Override
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         rfidHandler.onDestroy();
+                                        isSucess = true;
                                         Intent intent = new Intent(MainActivity.this, ScanVinPinActivity.class);
                                         startActivity(intent);
                                     }
@@ -644,74 +563,9 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
 
         }
         catch (Exception ex) {
-
+            isSucess = true;
+            showSuccessToast(ex.toString());
         }
-//        rfidHandler.onDestroy();
-    }
-
-    public String readUserData(String tagId, String vinnumber){
-//        rfidHandler.onCreate(this);
-        String sendResponse = "";
-        if(rfidHandler != null && rfidHandler.reader != null){
-//            rfidPerformInevntoryClass.readRFIDTagData(rfidLocalHandler);
-        }
-        else {
-            rfidHandler.onDestroy();
-            rfidHandler = new RFIDHandler( MainActivity.this);
-            rfidHandler.onCreate(this);
-        }
-        try{
-            String rfidTagPinNumberValue = "";
-            String resultView = "NA";
-            TagAccess tagAccess = new TagAccess();
-            TagAccess.ReadAccessParams readAccessParams = tagAccess.new ReadAccessParams();
-            TagData readAccessTag;
-            readAccessParams.setAccessPassword(0);
-            readAccessParams.setMemoryBank(MEMORY_BANK.MEMORY_BANK_USER);
-            readAccessParams.setOffset(0);
-            TagData tagData = null;
-            try {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                tagData = rfidHandler.reader.Actions.TagAccess.readWait(tagId, readAccessParams, null);
-                if (tagData != null) {
-                    ACCESS_OPERATION_CODE readAccessOperation = tagData.getOpCode();
-                    if (readAccessOperation != null) {
-                        if (tagData.getOpStatus() != null && !tagData.getOpStatus().equals(ACCESS_OPERATION_STATUS.ACCESS_SUCCESS)) {
-                            String strErr = tagData.getOpStatus().toString().replaceAll("_", " ");
-//                            Toast.makeText(this, strErr, Toast.LENGTH_SHORT).show();
-                            showToast(strErr);
-                            rfidTagPinNumberValue = "";
-
-                        } else {
-                            if (tagData.getOpCode() == ACCESS_OPERATION_CODE.ACCESS_OPERATION_READ) {
-                                String originalValue = tagData.getMemoryBankData();
-                                String result = newHexConverstion.hexToString(originalValue);
-                                rfidTagPinNumberValue = result;
-                                if (result.contains(vinnumber)) {
-                                    resultView = "OK";
-                                } else {
-                                    resultView = "NOK";
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (InvalidUsageException e) {
-                e.printStackTrace();
-            } catch (OperationFailureException e) {
-                e.printStackTrace();
-            }
-            sendResponse = rfidTagPinNumberValue + ";" + resultView;
-        }
-        catch (Exception ex){
-
-        }
-//        rfidHandler.onDestroy();
-        return sendResponse;
     }
 
     @Override
