@@ -212,7 +212,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main1, menu);
         return true;
     }
 
@@ -223,9 +223,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
 
-            case R.id.action_settings:
-                Intent intent = new Intent(this, SettingActivity.class);
-                this.startActivity(intent);
+            case R.id.action_logout:
+                Intent intent1 = new Intent(this, LogoutActivity.class);
+                this.startActivity(intent1);
                 return true;
 
             default:
