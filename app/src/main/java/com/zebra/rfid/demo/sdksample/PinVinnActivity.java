@@ -49,6 +49,9 @@ import org.json.JSONObject;
 import com.zebra.rfid.api3.Readers;
 import com.zebra.rfid.demo.sdksample.view.ScanCompareTagActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.ResponseHandlerInterface  {
     Button buttonBack;
@@ -271,7 +274,17 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
 
                     }
                 }
-            );
+            ){
+                @Override
+                public Map<String, String> getHeaders() {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                            MODE_PRIVATE);
+                    String token = sharedPreferences.getString("token", "");
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("token", token);
+                    return params;
+                }
+            };
 
             requestQueue.add(objectRequest);
         }
@@ -445,7 +458,17 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                     toast.show();
                 }
             }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                        MODE_PRIVATE);
+                String token = sharedPreferences.getString("token", "");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", token);
+                return params;
+            }
+        };
         requestQueue.add(objectRequest);
     }
 

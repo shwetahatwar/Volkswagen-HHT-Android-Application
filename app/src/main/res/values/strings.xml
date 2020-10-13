@@ -5,7 +5,7 @@
     <string name="title_home">Home</string>
     <string name="title_back">Back</string>
     <string name="next">Next</string>
-    <string name="app_title">Vehicle Identification Using RFID</string>
+    <string name="app_title">ŠAVWIPL</string>
     <string name="write_tag_operation_title">Write Tag Operation</string>
     <string name="main_activity_title">Write Tag Operation</string>
     <string name="read_tag_activity_title">Verify Tag Data</string>

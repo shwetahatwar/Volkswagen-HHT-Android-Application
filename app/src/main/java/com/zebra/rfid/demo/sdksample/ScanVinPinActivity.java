@@ -29,6 +29,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import android.content.Context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
 public class ScanVinPinActivity extends AppCompatActivity {
     String URL;
@@ -56,6 +59,7 @@ public class ScanVinPinActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+
                         Log.e("Request GET response",response.toString());
                     }
                 },
@@ -65,7 +69,18 @@ public class ScanVinPinActivity extends AppCompatActivity {
                         Log.e("Request response",error.toString());
                     }
                 }
-        );
+
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                        MODE_PRIVATE);
+                String token = sharedPreferences.getString("token", "");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", token);
+                return params;
+            }
+        };
         requestQueue.add(objectRequest);
         pinValue = findViewById(R.id.pinValue);
         vinValue = findViewById(R.id.vinValue);

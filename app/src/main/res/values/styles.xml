@@ -6,6 +6,7 @@
         <item name="colorPrimary">#4BA82E</item>
         <item name="colorPrimaryDark">#4BA82E</item>
         <item name="colorAccent">#4BA82E</item>
+        <item name="android:fontFamily">@font/skodaprobold</item>
     </style>
 
     <style name="AppTheme.DarkActionBar">
@@ -221,5 +222,6 @@
     <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="colorPrimary">#4BA82E</item>
     </style>
+
 
 </resources>

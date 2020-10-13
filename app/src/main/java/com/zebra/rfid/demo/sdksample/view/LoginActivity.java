@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -38,6 +41,7 @@ import com.zebra.rfid.demo.sdksample.R;
 import com.zebra.rfid.demo.sdksample.ScanVinPinActivity;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,6 +82,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void onResponse(String response) {
                                     // navigate to home fragment
+                                    try {
+                                        JSONObject obj = new JSONObject(response.toString());
+                                        Log.d("token", obj.getString("token"));
+                                        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                                                MODE_PRIVATE);
+                                        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+                                        myEdit.putString( "token", obj.getString("token").toString());
+                                        myEdit.commit();
+                                    } catch (Throwable tx) {
+                                        Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
+                                    }
+
                                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                 }
@@ -85,21 +101,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-                                    String json = "Failed to login";
-                                    NetworkResponse response = error.networkResponse;
-                                    if(response != null && response.data != null){
-                                        switch(response.statusCode){
-                                            case 400: {
-                                                json = new String(response.data);
-                                                json = json.substring(21, json.length() - 3);
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if(json.length() <= 0){
-                                        json = "Please try again";
-                                    }
+                                    CharSequence text = "Failed to login";
+                                    Context context = getApplicationContext();
+                                    int duration = Toast.LENGTH_SHORT;
+                                    Toast toast = Toast.makeText(context, text, duration);
+                                    View v = toast.getView();
+                                    v.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                                    TextView t = v.findViewById(android.R.id.message);
+                                    t.setTextColor(Color.WHITE);
+                                    toast.show();
                                 }
                             }
                     ) {
@@ -110,7 +120,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             params.put("password", pass);
                             return params;
                         }
-
                     };
                     queue.add(postRequest);
                 }

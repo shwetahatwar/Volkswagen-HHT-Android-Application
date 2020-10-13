@@ -39,6 +39,9 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.internal.ListenerClass;
 
 import static android.graphics.Color.GREEN;
@@ -63,7 +66,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        setTitle("Volkswagen");
+        setTitle("ŠAVWIPL");
 
         ipaddressvalue = findViewById(R.id.ip_address_value_home);
         @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
@@ -98,7 +101,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         ipaddressvalue.setTextColor(Color.parseColor("#FF0000"));
                     }
                 }
-        );
+
+        ){
+            @Override
+            public Map<String, String> getHeaders() {
+                SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                        MODE_PRIVATE);
+                String token = sharedPreferences.getString("token", "");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("token", token);
+                return params;
+            }
+        };
+
         requestQueue.add(objectRequest);
 
         cp8 = findViewById(R.id.cp8);

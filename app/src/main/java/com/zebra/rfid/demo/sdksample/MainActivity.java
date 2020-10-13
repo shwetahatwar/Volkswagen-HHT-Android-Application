@@ -345,6 +345,18 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                     return params;
                 }
 
+                @Override
+                public Map<String, String> getHeaders() {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                            MODE_PRIVATE);
+                    SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+                    String token = sharedPreferences.getString("token", "");
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("token", token);
+                    return params;
+                }
+
             };
             queue.add(postRequest);
         }
@@ -454,6 +466,7 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
             @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
                     Context.MODE_APPEND);
             URL = sh.getString("server_ip", "");
+
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             URL = URL + "/rfidtagmasters?epcId=" + TIDData;
             JsonArrayRequest objectRequest = new JsonArrayRequest(
@@ -558,7 +571,17 @@ public class MainActivity extends AppCompatActivity implements RFIDHandler.Respo
                         alertDialog.show();
                     }
                 }
-            );
+            ){
+                @Override
+                public Map<String, String> getHeaders() {
+                    SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                            MODE_PRIVATE);
+                    String token = sharedPreferences.getString("token", "");
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("token", token);
+                    return params;
+                }
+            };
             requestQueue.add(objectRequest);
 
         }
