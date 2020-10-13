@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@android:drawable/editbox_background"
+            android:background="@drawable/edittext_bg"
             android:maxLines="1"
             android:hint="Scan PIN Number"
             android:fontFamily="@font/skodaprobold"

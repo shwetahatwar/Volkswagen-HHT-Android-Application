@@ -96,7 +96,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:imeOptions="actionNext"
-            android:background="@android:drawable/editbox_background"
+            android:background="@drawable/edittext_bg"
             android:hint="Tag Id"
             android:fontFamily="@font/skodaprobold"
             android:textColorHint="@color/skoda_hint"
