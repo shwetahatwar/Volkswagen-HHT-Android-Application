@@ -282,7 +282,7 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                     String token = sharedPreferences.getString("token", "");
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("Authorization", "JWT "+token);
-                    params.put("content-type", "application/json");
+                    // params.put("content-type", "application/json");
                     return params;
                 }
             };
@@ -467,7 +467,7 @@ public class PinVinnActivity extends AppCompatActivity implements RFIDHandler.Re
                 String token = sharedPreferences.getString("token", "");
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "JWT "+token);
-                params.put("content-type", "application/json");
+                // params.put("content-type", "application/json");
                 return params;
             }
         };

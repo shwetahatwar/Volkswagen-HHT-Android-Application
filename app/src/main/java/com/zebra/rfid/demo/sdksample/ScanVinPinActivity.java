@@ -59,7 +59,6 @@ public class ScanVinPinActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
                         Log.e("Request GET response",response.toString());
                     }
                 },
@@ -78,7 +77,7 @@ public class ScanVinPinActivity extends AppCompatActivity {
                 String token = sharedPreferences.getString("token", "");
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Authorization", "JWT "+token);
-                params.put("content-type", "application/json");
+                // params.put("content-type", "application/json");
                 return params;
             }
         };
