@@ -77,7 +77,8 @@ public class ScanVinPinActivity extends AppCompatActivity {
                         MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "");
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("token", token);
+                params.put("Authorization", "JWT "+token);
+                params.put("content-type", "application/json");
                 return params;
             }
         };

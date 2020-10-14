@@ -23,10 +23,11 @@ public class LogoutActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
-                MODE_PRIVATE);
+        @SuppressLint("WrongConstant") SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                MODE_APPEND);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         myEdit.putString( "token", "");
+        myEdit.putString( "role", "");
         myEdit.commit();
 
         Intent intent = new Intent(LogoutActivity.this, LoginActivity.class);

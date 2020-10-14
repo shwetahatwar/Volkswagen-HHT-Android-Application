@@ -67,8 +67,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:orientation="vertical"
+        android:id="@+id/cp6Layout"
+        android:visibility="gone"
         android:background="@drawable/button_background">
-
 
         <Button
             android:layout_width="match_parent"
@@ -76,6 +77,7 @@
             android:layout_marginTop="1dp"
             android:text="CP6 Station"
             android:id="@+id/btn0"
+
             android:background="#FFFFFF"
             android:fontFamily="@font/skodaprobold"
             android:layout_gravity="center_vertical" />
@@ -95,6 +97,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/cp10Layout"
+        android:visibility="gone"
         android:background="@drawable/blue_button">
 
         <Button
@@ -112,6 +116,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:id="@+id/cp8LinearLayout"
         android:orientation="vertical"
         android:background="@drawable/button_background">
 

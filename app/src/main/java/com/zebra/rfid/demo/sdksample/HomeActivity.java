@@ -28,6 +28,7 @@ import com.zebra.rfid.demo.sdksample.view.ScanCompareTagActivity;
 import com.zebra.rfid.demo.sdksample.view.SettingActivity;
 
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -50,11 +51,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     Button cp6;
     Button cp8;
+    View cp8Layout;
+    View cp6Layout;
+    View cp10Layout;
     Button cp10;
     private Button[] btn = new Button[3];
     private Button btn_focus;
     private int[] btn_id = {R.id.btn0, R.id.cp6, R.id.cp10};
     String URL = "";
+    String role = "";
     TextView ipaddressvalue;
     String ipvaluetoset;
     public static String antena = "";
@@ -72,6 +77,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
                 Context.MODE_APPEND);
         URL = sh.getString("server_ip", "");
+        role = sh.getString("role", "").toString();
         ipaddressvalue.setText(URL);
         antena = sh.getString("max_antena", "");
 
@@ -109,14 +115,29 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "");
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("token", token);
+                params.put("Authorization", "JWT "+token);
+                params.put("content-type", "application/json");
                 return params;
             }
         };
 
         requestQueue.add(objectRequest);
 
+        // To set role wise visibility
         cp8 = findViewById(R.id.cp8);
+        cp10Layout = findViewById(R.id.cp10Layout);
+        cp8Layout = findViewById(R.id.cp8LinearLayout);
+        cp6Layout = findViewById(R.id.cp6Layout);
+        if (role.matches("Admin")) {
+            cp8Layout.setVisibility(View.VISIBLE);
+            cp10Layout.setVisibility(View.VISIBLE);
+            cp6Layout.setVisibility(View.VISIBLE);
+        }else if (role.matches("CP6")) {
+            cp10Layout.setVisibility(View.VISIBLE);
+            cp6Layout.setVisibility(View.VISIBLE);
+        }else if (role.matches("CP8")) {
+            cp8Layout.setVisibility(View.VISIBLE);
+        }
 
         cp8.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,13 +152,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HomeActivity.this);
                     alertDialogBuilder.setMessage("Please enter Server IP and MAX Power");
                     alertDialogBuilder.setPositiveButton("yes",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
-                                startActivity(intent);
-                            }
-                        });
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    Intent intent = new Intent(HomeActivity.this, SettingActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
                     alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) { finish();}
@@ -152,6 +173,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+
         for (int i = 0; i < btn.length; i++) {
             btn[i] = (Button) findViewById(btn_id[i]);
             btn[i].setOnClickListener(this);
@@ -163,6 +185,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("WrongConstant") SharedPreferences sh = getSharedPreferences("MySharedPref",
                 Context.MODE_APPEND);
         URL = sh.getString("server_ip", "");
+        role = sh.getString("role", "");
         Log.d("Accessing URL -->", URL);
 
         switch (v.getId()) {

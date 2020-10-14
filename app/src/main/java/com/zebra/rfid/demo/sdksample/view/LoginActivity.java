@@ -85,10 +85,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     try {
                                         JSONObject obj = new JSONObject(response.toString());
                                         Log.d("token", obj.getString("token"));
-                                        SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
-                                                MODE_PRIVATE);
+                                        Log.d("role----",obj.getString("role"));
+                                        @SuppressLint("WrongConstant") SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",
+                                                MODE_APPEND);
                                         SharedPreferences.Editor myEdit = sharedPreferences.edit();
                                         myEdit.putString( "token", obj.getString("token").toString());
+                                        myEdit.putString( "role", obj.getString("role").toString());
                                         myEdit.commit();
                                     } catch (Throwable tx) {
                                         Log.e("My App", "Could not parse malformed JSON: \"" + response + "\"");
