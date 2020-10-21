@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scan PIN Number"
+            android:text="Scan KNR Number"
             android:layout_marginBottom="3dp"
             android:fontFamily="@font/skodaprobold" />
 

@@ -17,7 +17,7 @@
         android:id="@+id/textView7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scanned PIN Number"
+        android:text="Scanned KNR Number"
         android:fontFamily="@font/skodaprobold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textStatus" />
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/skodaprobold"
-        android:hint="PIN" />
+        android:hint="KNR" />
 
     <TextView
         android:id="@+id/textView9"

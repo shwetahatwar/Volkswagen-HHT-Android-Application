@@ -22,7 +22,7 @@
             android:id="@+id/textViewCp8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Scan PIN Number"
+            android:text="Scan KNR Number"
             android:textSize="14sp"
             android:fontFamily="@font/skodaprobold"
             android:layout_marginTop="10dp"
@@ -36,7 +36,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edittext_bg"
             android:maxLines="1"
-            android:hint="Scan PIN Number"
+            android:hint="Scan KNR Number"
             android:fontFamily="@font/skodaprobold"
             android:textColorHint="@color/skoda_hint"
             android:textSize="18sp" />
